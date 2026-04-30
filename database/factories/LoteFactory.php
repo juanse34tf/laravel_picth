@@ -10,18 +10,12 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class LoteFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
-        $faker = \Faker\Factory::create('es_ES');
         return [
-            'cantidad'    => $faker->numberBetween(500, 5000),
-            'fecha_inicio'=> $faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d'),
-            'estado'      => $faker->randomElement(['Activo', 'Finalizado', 'En Espera']),
+            'cantidad'     => $this->faker->numberBetween(500, 5000),
+            'fecha_inicio' => $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d'),
+            'estado'       => $this->faker->randomElement(['Activo', 'En Descanso', 'Finalizado']),
         ];
     }
 }
