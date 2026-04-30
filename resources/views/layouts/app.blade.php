@@ -8,7 +8,7 @@
         <title>{{ config('app.name', 'Sistema Avícola') }}</title>
 
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600|poppins:700&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -23,7 +23,7 @@
             <div class="flex-1 ml-64 flex flex-col min-h-screen">
 
                 @isset($header)
-                    <header class="bg-white shadow-sm border-b border-gray-200 px-8 py-4">
+                    <header class="bg-[#3b4a67] shadow-md px-8 py-4">
                         {{ $header }}
                     </header>
                 @endisset
