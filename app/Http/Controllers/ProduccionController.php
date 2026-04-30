@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lote;
 use App\Models\Produccion;
-use Barryvdh\LaravelDompdf\Facade\Pdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class ProduccionController extends Controller

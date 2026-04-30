@@ -17,8 +17,11 @@ class LoteFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = \Faker\Factory::create('es_ES');
         return [
-            //
+            'cantidad'    => $faker->numberBetween(500, 5000),
+            'fecha_inicio'=> $faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d'),
+            'estado'      => $faker->randomElement(['Activo', 'Finalizado', 'En Espera']),
         ];
     }
 }

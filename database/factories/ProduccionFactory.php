@@ -17,8 +17,13 @@ class ProduccionFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = \Faker\Factory::create('es_ES');
         return [
-            //
+            'lote_id'       => \App\Models\Lote::factory(),
+            'fecha'         => $faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d'),
+            'tipo_huevo'    => $faker->randomElement(['Blanco AA', 'Blanco A', 'Marrón AA', 'Marrón A', 'Blanco B']),
+            'cantidad'      => $faker->numberBetween(200, 3000),
+            'observaciones' => $faker->optional(0.5)->sentence(10),
         ];
     }
 }
