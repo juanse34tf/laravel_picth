@@ -20,4 +20,9 @@ class Lote extends Model
     {
         return $this->hasMany(Produccion::class);
     }
+
+    public function alimentaciones()
+    {
+        return $this->hasMany(Alimentacion::class);
+    }
 }
