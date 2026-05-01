@@ -19,7 +19,7 @@
                     {{ Auth::user()->name }}
                 </p>
                 <span class="inline-block mt-1 text-xs font-medium text-blue-200 bg-[#2f3c55] px-2 py-0.5 rounded-full">
-                    Administrador
+                    {{ Auth::user()->role === 'admin' ? 'Administrador' : 'Operario' }}
                 </span>
             </div>
         </div>
@@ -76,6 +76,7 @@
         {{-- Separador --}}
         <p class="px-4 pt-3 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Finanzas</p>
 
+        @if(Auth::user()->role === 'admin')
         <a href="{{ route('ventas.index') }}"
            class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors
                   {{ request()->routeIs('ventas.*') ? 'bg-[#2f3c55] text-white' : 'text-gray-300 hover:bg-[#2f3c55] hover:text-white' }}">
@@ -88,12 +89,25 @@
             <i class="fa-solid fa-receipt w-5 text-center text-[#fbbf24]"></i>
             Gastos
         </a>
+        @endif
+
         <a href="{{ route('reportes.index') }}"
            class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors
                   {{ request()->routeIs('reportes.*') ? 'bg-[#2f3c55] text-white' : 'text-gray-300 hover:bg-[#2f3c55] hover:text-white' }}">
             <i class="fa-solid fa-chart-bar w-5 text-center text-[#fbbf24]"></i>
             Reportes
         </a>
+
+        {{-- Administración (solo admin) --}}
+        @if(Auth::user()->role === 'admin')
+        <p class="px-4 pt-3 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Administración</p>
+        <a href="{{ route('usuarios.index') }}"
+           class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors
+                  {{ request()->routeIs('usuarios.*') ? 'bg-[#2f3c55] text-white' : 'text-gray-300 hover:bg-[#2f3c55] hover:text-white' }}">
+            <i class="fa-solid fa-users-gear w-5 text-center text-[#fbbf24]"></i>
+            Usuarios
+        </a>
+        @endif
 
     </nav>
 

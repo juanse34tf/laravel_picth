@@ -16,11 +16,19 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        // ─── Usuario administrador fijo ───────────────────────────────────────
+        // ─── Usuarios ─────────────────────────────────────────────────────────
         User::factory()->create([
             'name'     => 'Administrador',
             'email'    => 'admin@gallinas.com',
             'password' => bcrypt('password'),
+            'role'     => 'admin',
+        ]);
+
+        User::factory()->create([
+            'name'     => 'Operario',
+            'email'    => 'operario@gallinas.com',
+            'password' => bcrypt('password'),
+            'role'     => 'operario',
         ]);
 
         // ─── 5 Categorías representativas ────────────────────────────────────
@@ -81,7 +89,7 @@ class DatabaseSeeder extends Seeder
             ['cantidad' => 4100, 'fecha_inicio' => '2024-10-05', 'estado' => 'Activo'],
         ])->map(fn ($d) => Lote::create($d));
 
-        // ─── 50 Registros de producción ───────────────────────────────────────
+        // ─── 50 registros históricos (semanales, desde hace ~49 semanas) ──────
         $tipos = ['A', 'AA', 'AAA', 'B'];
         $observaciones = [
             'Producción normal sin incidencias.',
@@ -96,7 +104,9 @@ class DatabaseSeeder extends Seeder
             'Revisión veterinaria programada.',
         ];
 
-        $base = strtotime('2024-01-08');
+        // Base: hace 49 semanas → el registro 49 cae en la fecha actual
+        $base = now()->subWeeks(49)->startOfDay()->timestamp;
+
         for ($i = 0; $i < 50; $i++) {
             Produccion::create([
                 'lote_id'       => $lotes[$i % 4]->id,
@@ -104,6 +114,18 @@ class DatabaseSeeder extends Seeder
                 'tipo_huevo'    => $tipos[$i % 4],
                 'cantidad'      => rand(100, 500),
                 'observaciones' => $observaciones[$i % count($observaciones)],
+            ]);
+        }
+
+        // ─── 7 registros diarios recientes para el gráfico del dashboard ─────
+        $tiposRecientes = ['A', 'AAA', 'AA', 'A', 'AAA', 'AA', 'A'];
+        for ($i = 6; $i >= 0; $i--) {
+            Produccion::create([
+                'lote_id'       => $lotes[0]->id,
+                'fecha'         => now()->subDays($i)->format('Y-m-d'),
+                'tipo_huevo'    => $tiposRecientes[$i],
+                'cantidad'      => rand(200, 480),
+                'observaciones' => null,
             ]);
         }
     }
