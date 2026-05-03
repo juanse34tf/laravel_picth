@@ -13,11 +13,8 @@ class CategoriaFactory extends Factory
     public function definition(): array
     {
         return [
-            'nombre'      => $this->faker->unique()->randomElement([
-                'Alimentos', 'Medicamentos', 'Insumos', 'Equipos', 'Suplementos',
-                'Herramientas', 'Vacunas', 'Empaques',
-            ]),
-            'descripcion' => $this->faker->sentence(8),
+            'nombre'      => $this->faker->unique()->words(2, true),
+            'descripcion' => $this->faker->sentence(),
             'status'      => $this->faker->boolean(90),
         ];
     }
