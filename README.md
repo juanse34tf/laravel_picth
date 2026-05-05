@@ -20,7 +20,7 @@ Sistema web para la gestión de una empresa avícola. Permite administrar catego
 ### 1. Clonar el repositorio
 
 ```bash
-git clone <url-del-repositorio>
+git clone https://github.com/juanse34tf/laravel_picth.git
 cd Avicola_laravel
 ```
 
