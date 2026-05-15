@@ -20,7 +20,7 @@ Sistema web para la gestión de una empresa avícola. Permite administrar catego
 ### 1. Clonar el repositorio
 
 ```bash
-git clone <url-del-repositorio>
+git clone https://github.com/juanse34tf/laravel_picth.git
 cd Avicola_laravel
 ```
 
@@ -100,17 +100,8 @@ npm run build
 php artisan serve
 ```
 
-La aplicación estará disponible en [http://localhost:8000](http://localhost:8000).
 
-Para desarrollo con hot-reload del frontend, abrir dos terminales:
 
-```bash
-# Terminal 1
-php artisan serve
-
-# Terminal 2
-npm run dev
-```
 
 ### Modo producción
 
@@ -126,7 +117,7 @@ php artisan serve
 ## Resumen rápido (todos los pasos en orden)
 
 ```bash
-git clone <url-del-repositorio>
+git clone https://github.com/juanse34tf/laravel_picth.git
 cd Avicola_laravel
 
 composer install
