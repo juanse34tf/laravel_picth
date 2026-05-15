@@ -27,4 +27,10 @@ class Producto extends Model
     {
         return $this->hasMany(Venta::class);
     }
+
+    /** Regla de negocio: margen de ganancia por unidad vendida. */
+    public function calcularMargen(): float
+    {
+        return round((float) $this->precio_venta - (float) $this->precio, 2);
+    }
 }

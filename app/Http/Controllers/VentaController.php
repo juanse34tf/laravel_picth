@@ -29,7 +29,16 @@ class VentaController extends Controller
             'fecha'       => 'required|date',
         ]);
 
+        $producto = Producto::findOrFail($request->producto_id);
+
+        if ($producto->stock < $request->cantidad) {
+            return back()
+                ->withErrors(['cantidad' => 'Stock insuficiente. Disponible: ' . $producto->stock . ' unidades.'])
+                ->withInput();
+        }
+
         Venta::create($request->only('producto_id', 'cantidad', 'total', 'fecha'));
+        $producto->decrement('stock', $request->cantidad);
 
         return redirect()->route('ventas.index')
             ->with('success', 'Venta registrada correctamente.');
@@ -55,7 +64,20 @@ class VentaController extends Controller
             'fecha'       => 'required|date',
         ]);
 
+        // Restituir stock del producto anterior
+        $venta->producto->increment('stock', $venta->cantidad);
+
+        // Verificar stock del producto destino (ya incluye la restitución si es el mismo)
+        $producto = Producto::findOrFail($request->producto_id);
+        if ($producto->stock < $request->cantidad) {
+            $venta->producto->decrement('stock', $venta->cantidad);
+            return back()
+                ->withErrors(['cantidad' => 'Stock insuficiente. Disponible: ' . $producto->stock . ' unidades.'])
+                ->withInput();
+        }
+
         $venta->update($request->only('producto_id', 'cantidad', 'total', 'fecha'));
+        $producto->decrement('stock', $request->cantidad);
 
         return redirect()->route('ventas.index')
             ->with('success', 'Venta actualizada correctamente.');
@@ -63,6 +85,7 @@ class VentaController extends Controller
 
     public function destroy(Venta $venta)
     {
+        $venta->producto->increment('stock', $venta->cantidad);
         $venta->delete();
 
         return redirect()->route('ventas.index')

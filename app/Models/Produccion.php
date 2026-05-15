@@ -22,4 +22,10 @@ class Produccion extends Model
     {
         return $this->belongsTo(Lote::class);
     }
+
+    /** Regla de negocio: un día es productivo si se recolectó al menos un huevo. */
+    public function esDiaProductivo(): bool
+    {
+        return (int) $this->cantidad > 0;
+    }
 }
