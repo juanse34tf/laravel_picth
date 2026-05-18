@@ -20,7 +20,7 @@
                                     class="w-full border-gray-300 focus:border-[#3b4a67] focus:ring-[#3b4a67] rounded-md shadow-sm">
                                 <option value="">-- Seleccione un producto --</option>
                                 @foreach($productos as $producto)
-                                    <option value="{{ $producto->id }}"
+                                    <option value="{{ $producto->id }}" data-precio="{{ $producto->precio_venta }}"
                                         {{ old('producto_id', $venta->producto_id) == $producto->id ? 'selected' : '' }}>
                                         {{ $producto->nombre }} — ${{ number_format($producto->precio_venta, 2) }}
                                     </option>
@@ -46,7 +46,7 @@
                                 <label for="total" class="block text-sm font-medium text-gray-700 mb-1">Total ($)</label>
                                 <input type="number" id="total" name="total"
                                        value="{{ old('total', $venta->total) }}"
-                                       step="0.01" min="0"
+                                       step="0.01" min="0" readonly
                                        class="w-full border-gray-300 focus:border-[#3b4a67] focus:ring-[#3b4a67] rounded-md shadow-sm">
                                 @error('total')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -78,4 +78,33 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const productoSelect = document.getElementById('producto_id');
+            const cantidadInput = document.getElementById('cantidad');
+            const totalInput = document.getElementById('total');
+
+            if (!productoSelect || !cantidadInput || !totalInput) {
+                return;
+            }
+
+            const actualizarTotal = function () {
+                const opcionSeleccionada = productoSelect.options[productoSelect.selectedIndex];
+                const precio = opcionSeleccionada ? parseFloat(opcionSeleccionada.dataset.precio) : NaN;
+                const cantidad = parseFloat(cantidadInput.value);
+
+                if (!Number.isFinite(precio) || !Number.isFinite(cantidad) || cantidad < 0) {
+                    totalInput.value = '';
+                    return;
+                }
+
+                totalInput.value = (cantidad * precio).toFixed(2);
+            };
+
+            productoSelect.addEventListener('change', actualizarTotal);
+            cantidadInput.addEventListener('input', actualizarTotal);
+            actualizarTotal();
+        });
+    </script>
 </x-app-layout>
